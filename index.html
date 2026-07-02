@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#2a1a2c" />
+<title>You're invited to Knot 💞</title>
+<style>
+  * { margin: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    min-height: 100dvh; display: flex; align-items: center; justify-content: center;
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(160deg, #2a1a2c 0%, #432743 60%, #6b3f6b 120%);
+    color: #fff; padding: 24px; text-align: center;
+  }
+  .card { max-width: 400px; width: 100%; }
+  .logo { width: 72px; height: 72px; margin: 0 auto 20px; }
+  h1 { font-family: Georgia, serif; font-weight: 600; font-size: 30px; line-height: 1.2; }
+  .sub { margin-top: 10px; color: rgba(255,255,255,.7); font-size: 15px; line-height: 1.5; }
+  .code-box {
+    margin: 26px auto 6px; background: rgba(255,255,255,.1); border-radius: 18px;
+    padding: 18px 22px; font-family: Georgia, serif; font-size: 34px; letter-spacing: .3em;
+    display: none; user-select: all;
+  }
+  .code-hint { display: none; color: rgba(255,255,255,.55); font-size: 12.5px; }
+  .btn {
+    display: block; width: 100%; margin-top: 14px; padding: 16px; border: 0; border-radius: 999px;
+    font-size: 16px; font-weight: 700; text-decoration: none; color: #fff; cursor: pointer;
+    background: linear-gradient(135deg, #e2587c 0%, #ec8230 100%);
+    box-shadow: 0 8px 24px -8px rgba(210,58,100,.5);
+  }
+  .btn.ghost { background: rgba(255,255,255,.12); box-shadow: none; }
+  .steps { margin-top: 26px; text-align: left; color: rgba(255,255,255,.65); font-size: 13.5px; line-height: 2; }
+  .steps b { color: #f7bd8c; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <svg class="logo" viewBox="0 0 108 108" fill="none">
+      <path d="M27,54 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0 Z" fill="#e2587c"/>
+      <path d="M41,54 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0 Z" fill="#ec8230" fill-opacity=".92"/>
+    </svg>
+    <h1 id="title">You're invited to Knot</h1>
+    <p class="sub">A private little app for just the two of you — chat, date nights, memories, and a daily question to answer together.</p>
+
+    <div class="code-box" id="codeBox"></div>
+    <p class="code-hint" id="codeHint">Your pairing code — tap “Copy code”, it auto-fills in the app.</p>
+
+    <a class="btn" id="download" href="Knot.apk" download>⬇️&nbsp; Download Knot (Android)</a>
+    <button class="btn ghost" id="copyBtn" style="display:none">📋&nbsp; Copy code</button>
+    <a class="btn ghost" id="openApp" style="display:none">💞&nbsp; Already installed? Open Knot</a>
+
+    <div class="steps">
+      <span><b>1.</b> Download & open the file — allow “install from this source”.</span><br/>
+      <span><b>2.</b> Open Knot, enter your name & number.</span><br/>
+      <span id="step3"><b>3.</b> Your code auto-fills — tap “Tie the Knot”. 💍</span>
+    </div>
+  </div>
+<script>
+  var code = (new URLSearchParams(location.search).get("c") || "").toUpperCase();
+  if (/^[A-Z2-9]{6}$/.test(code)) {
+    document.getElementById("codeBox").style.display = "block";
+    document.getElementById("codeBox").textContent = code;
+    document.getElementById("codeHint").style.display = "block";
+    var copyBtn = document.getElementById("copyBtn");
+    copyBtn.style.display = "block";
+    copyBtn.onclick = function () {
+      navigator.clipboard.writeText(code).then(function () {
+        copyBtn.textContent = "✅  Copied — it’ll auto-fill in Knot";
+      });
+    };
+    var open = document.getElementById("openApp");
+    open.style.display = "block";
+    open.href = "intent://pair/" + code + "#Intent;scheme=knot;package=com.knot.app;end";
+  }
+</script>
+</body>
+</html>
